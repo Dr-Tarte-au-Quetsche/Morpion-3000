@@ -129,50 +129,56 @@ def affiche_grille_numpad(titre,tableau) :
 
 ###############################################################################
 #Fonctions pour la partie de jeu
-#Test de victoires##########################################################################################""
-def test_victoire(grille_jeu) :
-    #Test lignes horizontales
+#Test de victoires##########################################################################
+def test_lignes(grille_jeu,debut,fin,pas) :
     total = 0
-    debut = 0
-    fin = 3
-    pas = 1
     for idx_case in range(debut,fin,pas) :
         total += grille_jeu[idx_case]
         if total == 3 :
             return 1
         elif total == -3 :
             return -1
-        if fin < 9 :
-            fin += 2
 
-#Test lignes verticales
-    total = 0
+
+
+def test_victoire(grille_jeu) :
+    #Test des lignes horizontales
+    debut = 0
+    fin = 9
+    pas = 1
+    while debut < 7 :
+        retour_test = test_lignes(grille_jeu, debut, fin, pas)
+        if retour_test == 1 or retour_test ==-1 :
+            return retour_test
+        debut +=3
+
+    #Test des lignes verticales
     debut = 0
     fin = 9
     pas = 3
-    for idx_case in range(debut,fin,pas) :
-        total += grille_jeu[idx_case]
-        if total == 3 :
-            return 1
-        elif total == -3 :
-            return -1
-        elif debut < 3 :
-            debut += 1
-    #Test diagonales
+    while debut < 4 :
+        retour_test = test_lignes(grille_jeu, debut, fin, pas)
+        if retour_test == 1 or retour_test ==-1 :
+            return retour_test
+        debut +=1
 
+    #Test des lignes diagonales
     addition_diago1 = 0
-    addition_diago1 = addition_diago1 + grille_morpion[0] + grille_morpion[4] + grille_morpion[8]
+    addition_diago1 = addition_diago1 + grille_jeu[0] + grille_jeu[4] + grille_jeu[8]
     if addition_diago1 == 3 :
         return 1
     elif addition_diago1 == - 3 :
         return -1
 
     addition_diago2 = 0
-    addition_diago2 = addition_diago2 + grille_morpion[2] + grille_morpion[4] + grille_morpion[6]
+    addition_diago2 = addition_diago2 + grille_jeu[2] + grille_jeu[4] + grille_jeu[6]
     if addition_diago2 == 3 :
         return 1
     elif addition_diago2 == - 3 :
         return -1
+    else :
+        return False
+
 ############################################################################################
 def manche(nombre_manche) :
     while 0 in grille_morpion == True :
@@ -208,29 +214,29 @@ else :
 
 affectation_signe_joueur(choix_signe)
 ##################################################################################################
-while test_victoire(grille_morpion)[1] != 1 or test_victoire(grille_morpion)[1] != -1 :
-    print(test_victoire(grille_morpion)[1])
-    print(test_victoire(grille_morpion))
-    if dicoj1["toggle"] == 1 :
-        print(affiche_grille_numpad("Rappel grille :", grille_numpad))
-        print(affiche_grille_morpion(f"Au tour de {dicoj1['pseudo']} : ", grille_morpion))
 
-        position_user = int(input("Choissisez votre position -----> "))
-        while grille_morpion[dico_numpad[position_user]] != 0 :
-            position_user = int(input("La position est déjà prise ! Veuillez en choisir une autre ! ----> "))
-        modif_grille(dicoj1["id"],position_user)
-        grille_numpad[dico_numpad[position_user]] = "-"
-        dicoj1["toggle"] = 1 - dicoj1["toggle"]
-        dicoj2["toggle"] = 1 - dicoj2["toggle"]
+while 0 in grille_morpion == True :
+    while test_victoire(grille_morpion) == False :
+        if dicoj1["toggle"] == 1 :
+            print(affiche_grille_numpad("Rappel grille :", grille_numpad))
+            print(affiche_grille_morpion(f"Au tour de {dicoj1['pseudo']} : ", grille_morpion))
+
+            position_user = int(input("Choissisez votre position -----> "))
+            while grille_morpion[dico_numpad[position_user]] != 0 :
+                position_user = int(input("La position est déjà prise ! Veuillez en choisir une autre ! ----> "))
+            modif_grille(dicoj1["id"],position_user)
+            grille_numpad[dico_numpad[position_user]] = "-"
+            dicoj1["toggle"] = 1 - dicoj1["toggle"]
+            dicoj2["toggle"] = 1 - dicoj2["toggle"]
+        else :
+            print(affiche_grille_numpad("Rappel grille :", grille_numpad))
+            print(affiche_grille_morpion(f"Au tour de {dicoj2['pseudo']} : ", grille_morpion))
+            position_user = int(input("Choissisez votre position -----> "))
+            while grille_morpion[dico_numpad[position_user]] != 0 :
+                position_user = int(input("La position est déjà prise ! Veuillez en choisir une autre ! ----> "))
+            modif_grille(dicoj2["id"],position_user)
+            grille_numpad[dico_numpad[position_user]] = "-"
+            dicoj1["toggle"] = 1 - dicoj1["toggle"]
+            dicoj2["toggle"] = 1 - dicoj2["toggle"]
     else :
-        print(affiche_grille_numpad("Rappel grille :", grille_numpad))
-        print(affiche_grille_morpion(f"Au tour de {dicoj2['pseudo']} : ", grille_morpion))
-        position_user = int(input("Choissisez votre position -----> "))
-        while grille_morpion[dico_numpad[position_user]] != 0 :
-            position_user = int(input("La position est déjà prise ! Veuillez en choisir une autre ! ----> "))
-        modif_grille(dicoj2["id"],position_user)
-        grille_numpad[dico_numpad[position_user]] = "-"
-        dicoj1["toggle"] = 1 - dicoj1["toggle"]
-        dicoj2["toggle"] = 1 - dicoj2["toggle"]
-else :
-    print("zoiajnoifzanjoif")
+        print("zoiajnoifzanjoif")
