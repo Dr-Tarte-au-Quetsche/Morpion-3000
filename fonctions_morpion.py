@@ -180,13 +180,32 @@ def test_victoire(grille_jeu) :
         return False
 
 ############################################################################################
-def manche(nombre_manche) :
+def manche() :
     while 0 in grille_morpion == True :
         while test_victoire() == False :
-            pass
+            if dicoj1["toggle"] == 1 :
+                print(affiche_grille_numpad("Rappel grille :", grille_numpad))
+                print(affiche_grille_morpion(f"Au tour de {dicoj1['pseudo']} : ", grille_morpion))
+                #Faire la partie placemen du signe du joueur 1
+                modif_grille(dicoj1["id"],position_user)
+                grille_numpad[dico_numpad[position_user]] = "-"
+                dicoj1["toggle"] = 1 - dicoj1["toggle"]
+                dicoj2["toggle"] = 1 - dicoj2["toggle"]
+            else :
+                print(affiche_grille_numpad("Rappel grille :", grille_numpad))
+                print(affiche_grille_morpion(f"Au tour de {dicoj2['pseudo']} : ", grille_morpion))
+                #Faire la partie placemen du signe du joueur 2
+                modif_grille(dicoj2["id"],position_user)
+                grille_numpad[dico_numpad[position_user]] = "-"
+                dicoj1["toggle"] = 1 - dicoj1["toggle"]
+                dicoj2["toggle"] = 1 - dicoj2["toggle"]
 
-def partie() :
-    manche()
+def partie(nombre_manche) :
+    int_manche = 0
+    while int_manche < nombre_manche :
+        int_manche +=1
+        print(f"Manche numéro {int_manche} : \n")
+        manche()
 ###############################################################################
 def statistiques() :
     pass
